@@ -6,7 +6,7 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.addincendekia.mvvmnews.db.dao.ArticleDao
-import com.addincendekia.mvvmnews.model.Article
+import com.addincendekia.mvvmnews.data.model.Article
 
 @Database(entities = [Article::class], version = 1)
 @TypeConverters(CustomTypeConverters::class)

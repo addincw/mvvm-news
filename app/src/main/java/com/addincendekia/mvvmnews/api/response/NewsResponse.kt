@@ -1,6 +1,6 @@
 package com.addincendekia.mvvmnews.api.response
 
-import com.addincendekia.mvvmnews.model.Article
+import com.addincendekia.mvvmnews.data.model.Article
 
 data class NewsResponse(
     val articles: List<Article>,

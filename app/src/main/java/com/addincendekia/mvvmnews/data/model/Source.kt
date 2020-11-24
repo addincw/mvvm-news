@@ -1,4 +1,4 @@
-package com.addincendekia.mvvmnews.model
+package com.addincendekia.mvvmnews.data.model
 
 data class Source(
     val id: String,

@@ -1,7 +1,7 @@
 package com.addincendekia.mvvmnews.db
 
 import androidx.room.TypeConverter
-import com.addincendekia.mvvmnews.model.Source
+import com.addincendekia.mvvmnews.data.model.Source
 
 class CustomTypeConverters {
     @TypeConverter
