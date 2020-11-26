@@ -40,10 +40,17 @@ class BreakingNewsFragment : Fragment(R.layout.fragment_breaking_news) {
                     }
                 }
                 is Resource.Error -> {
-                    hideProgressBar()
-                    resource.message?.let {
-                        Toast.makeText(activity, "failed get data: $it", Toast.LENGTH_SHORT).show()
+                    var toastMessage = "Failed get data: "
+
+                    resource.data?.let {
+                        toastMessage += it.message
                     }
+                    resource.message?.let {
+                        toastMessage += it
+                    }
+
+                    hideProgressBar()
+                    Toast.makeText(activity, toastMessage, Toast.LENGTH_SHORT).show()
                 }
                 is Resource.Loading -> showProgressBar()
             }

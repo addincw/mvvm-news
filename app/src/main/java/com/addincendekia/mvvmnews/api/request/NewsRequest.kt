@@ -7,7 +7,7 @@ import retrofit2.http.GET
 import retrofit2.http.Query
 
 interface NewsRequest {
-    @GET("v2/everything")
+    @GET("v2/top-headlines")
     suspend fun getNews(
         @Query("country")
         countryCode: String = "us",
