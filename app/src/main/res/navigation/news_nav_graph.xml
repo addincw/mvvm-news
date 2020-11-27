@@ -48,5 +48,9 @@
         android:id="@+id/detailNewsFragment"
         android:name="com.addincendekia.mvvmnews.ui.fragments.DetailNewsFragment"
         android:label="fragment_detail_news"
-        tools:layout="@layout/fragment_detail_news" />
+        tools:layout="@layout/fragment_detail_news" >
+        <argument
+            android:name="article"
+            app:argType="com.addincendekia.mvvmnews.data.model.Article" />
+    </fragment>
 </navigation>

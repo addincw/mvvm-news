@@ -5,24 +5,43 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.addincendekia.mvvmnews.api.response.NewsResponse
+import com.addincendekia.mvvmnews.data.model.Article
 import com.addincendekia.mvvmnews.data.repository.NewsRepository
 import com.addincendekia.mvvmnews.util.Resource
 import com.google.gson.Gson
 import kotlinx.coroutines.launch
 import retrofit2.Response
-import kotlin.math.log
 
 class NewsViewModel(private val newsRepository: NewsRepository) : ViewModel() {
     private val breakingNews =  MutableLiveData<Resource<NewsResponse>>()
     private val pageNumber = 1
 
+    private val searchingNews =  MutableLiveData<Resource<NewsResponse>>()
+    private val searchingPageNumber = 1
+
+    private val savedPageNumber = 1
+
     fun breakingNews() = breakingNews
+    fun searchingNews() = searchingNews
+    fun savedNews() = newsRepository.getSavedNews()
 
     fun getBreakingNews(countryCode: String) = viewModelScope.launch {
         breakingNews.postValue(Resource.Loading())
 
         val response = newsRepository.getBreakingNews(countryCode, pageNumber)
         breakingNews.postValue(handleBreakingNewsResponse(response))
+    }
+    fun getSearchingNews(title: String) = viewModelScope.launch {
+        searchingNews.postValue(Resource.Loading())
+
+        val response = newsRepository.getSearchingNews(title, pageNumber)
+        searchingNews.postValue(handleBreakingNewsResponse(response))
+    }
+    fun addSavedNews(article: Article) = viewModelScope.launch {
+        newsRepository.addSavedNews(article)
+    }
+    fun deleteSavedNews(article: Article) = viewModelScope.launch {
+        newsRepository.deleteSavedNews(article)
     }
 
     private fun handleBreakingNewsResponse(response: Response<NewsResponse>): Resource<NewsResponse>? {

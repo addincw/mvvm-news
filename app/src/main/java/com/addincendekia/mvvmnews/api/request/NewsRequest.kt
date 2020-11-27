@@ -19,7 +19,7 @@ interface NewsRequest {
     @GET("v2/everything")
     suspend fun getFilteredNews(
         @Query("q")
-        countryCode: String,
+        title: String,
         @Query("page")
         pageNumber: Int = 1,
         @Query("apiKey")
