@@ -6,6 +6,6 @@ data class NewsResponse(
     val status: String,
     val code: String?,
     val message: String?,
-    val articles: List<Article>,
+    val articles: MutableList<Article>,
     val totalResults: Int,
 )

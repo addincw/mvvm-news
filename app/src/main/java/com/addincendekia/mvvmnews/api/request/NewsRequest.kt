@@ -1,7 +1,7 @@
 package com.addincendekia.mvvmnews.api.request
 
 import com.addincendekia.mvvmnews.api.response.NewsResponse
-import com.addincendekia.mvvmnews.util.Constant.Companion.NEWS_API_KEY
+import com.addincendekia.mvvmnews.util.Constant.NEWS.API_KEY
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Query
@@ -14,7 +14,7 @@ interface NewsRequest {
         @Query("page")
         pageNumber: Int = 1,
         @Query("apiKey")
-        apiKey: String = NEWS_API_KEY,
+        apiKey: String = API_KEY,
     ): Response<NewsResponse>
     @GET("v2/everything")
     suspend fun getFilteredNews(
@@ -23,6 +23,6 @@ interface NewsRequest {
         @Query("page")
         pageNumber: Int = 1,
         @Query("apiKey")
-        apiKey: String = NEWS_API_KEY,
+        apiKey: String = API_KEY,
     ): Response<NewsResponse>
 }

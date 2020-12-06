@@ -14,14 +14,14 @@ import retrofit2.Response
 
 class NewsViewModel(private val newsRepository: NewsRepository) : ViewModel() {
     private val breakingNews =  MutableLiveData<Resource<NewsResponse>>()
-    private val pageNumber = 1
+    private var breakingNewsCollection: NewsResponse? = null
+    private var pageNumber = 1
 
     private val searchingNews =  MutableLiveData<Resource<NewsResponse>>()
-    private val searchingPageNumber = 1
-
-    private val savedPageNumber = 1
+    private var searchingPageNumber = 1
 
     fun breakingNews() = breakingNews
+    fun breakingNewsPage() = pageNumber
     fun searchingNews() = searchingNews
     fun savedNews() = newsRepository.getSavedNews()
 
@@ -35,7 +35,7 @@ class NewsViewModel(private val newsRepository: NewsRepository) : ViewModel() {
         searchingNews.postValue(Resource.Loading())
 
         val response = newsRepository.getSearchingNews(title, pageNumber)
-        searchingNews.postValue(handleBreakingNewsResponse(response))
+        searchingNews.postValue(handleSearchingNewsResponse(response))
     }
     fun addSavedNews(article: Article) = viewModelScope.launch {
         newsRepository.addSavedNews(article)
@@ -47,13 +47,34 @@ class NewsViewModel(private val newsRepository: NewsRepository) : ViewModel() {
     private fun handleBreakingNewsResponse(response: Response<NewsResponse>): Resource<NewsResponse>? {
         if (response.isSuccessful){
             response.body()?.let {
+                pageNumber++
+                if (breakingNewsCollection != null){
+                    val currentNewsList = breakingNewsCollection?.articles
+                    currentNewsList?.addAll(it.articles)
+                    return Resource.Success(breakingNewsCollection!!)
+                }
+
+                breakingNewsCollection = it
                 return Resource.Success(it)
             }
         }
 
         response.errorBody()?.let {
             val respError = Gson().fromJson(it.string(), NewsResponse::class.java)
-            Log.d("xxx", respError.message)
+            return Resource.Error(respError, null)
+        }
+
+        return Resource.Error(null, response.message())
+    }
+    private fun handleSearchingNewsResponse(response: Response<NewsResponse>): Resource<NewsResponse>? {
+        if (response.isSuccessful){
+            response.body()?.let {
+                return Resource.Success(it)
+            }
+        }
+
+        response.errorBody()?.let {
+            val respError = Gson().fromJson(it.string(), NewsResponse::class.java)
             return Resource.Error(respError, null)
         }
 

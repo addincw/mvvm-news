@@ -1,7 +1,7 @@
 package com.addincendekia.mvvmnews.api
 
 import com.addincendekia.mvvmnews.api.request.NewsRequest
-import com.addincendekia.mvvmnews.util.Constant.Companion.NEWS_API_URL
+import com.addincendekia.mvvmnews.util.Constant.NEWS.API_URL
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -18,7 +18,7 @@ class ApiInstance {
                 .build()
 
             Retrofit.Builder()
-                .baseUrl(NEWS_API_URL)
+                .baseUrl(API_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(client)
                 .build()
